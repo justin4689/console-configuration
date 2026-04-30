@@ -1,11 +1,32 @@
 import { useConfig } from "@/hook/queries/useConfig";
 import type { entityConfig, entityConfigData } from "@/lib/types/config.types";
 import { Link } from "react-router-dom";
+import { configService } from "@/services/config.service";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ConfigContent() {
   const { data, isLoading, error } = useConfig<
     entityConfig[] | entityConfigData
   >();
+  const queryClient = useQueryClient();
+
+  const handleDelete = async (
+    e: React.MouseEvent,
+    id: string,
+    entityName: string,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (confirm(`Supprimer la configuration "${entityName}" ?`)) {
+      try {
+        await configService.deleteConfig(id);
+        queryClient.invalidateQueries({ queryKey: ["config"] });
+      } catch (err) {
+        alert("Erreur lors de la suppression");
+      }
+    }
+  };
 
   const entities: entityConfig[] = Array.isArray(data)
     ? data
@@ -225,8 +246,15 @@ function ConfigContent() {
                                       Table : {entity.entity}
                                     </div>
                                   </div>
-                                  <div className="text-primary">
-                                    <i className="uil uil-users-alt" />
+                                  <div
+                                    className="text-danger bg-light p-1 rounded cursor-pointer"
+                                    onClick={(e) =>
+                                      handleDelete(e, entity.id, entity.entity)
+                                    }
+                                    role="button"
+                                    title="Supprimer"
+                                  >
+                                    <i className="uil uil-trash-alt" />
                                   </div>
                                 </div>
                                 <div className="mt-2 text-muted">
