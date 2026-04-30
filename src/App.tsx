@@ -1,0 +1,50 @@
+import "./App.css";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import DashboardLayout from "./layouts/DashboardLayout";
+
+import ConfigList from "./pages/ConfigList";
+import ConfigEntityDetailsPage from "./pages/ConfigEntityDetailsPage";
+
+import { DashboardPage } from "./pages/DashboardPage";
+;
+import ConfigEntityCreatePage from "./pages/ConfigEntityCreatePage";
+
+function App() {
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route index path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<DashboardPage />} />
+            {/* <Route path="user-create" element={<UserCreatePage />} /> */}
+            {/* <Route path="users/:id" element={<UserDetailsPage />} />  */}
+
+            <Route path="configurations" element={<ConfigList />} />
+            <Route
+              path="configurations/:id"
+              element={<ConfigEntityDetailsPage />}
+
+            
+            />
+            <Route path="configurations/create" element={<ConfigEntityCreatePage />} />
+             
+          
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+}
+
+export default App;
+
