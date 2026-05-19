@@ -1084,7 +1084,7 @@ export default function ConfigEntityDetailsPage() {
                                       />
                                     </div>
 
-                                    <div className="col-12 col-md-6">
+                                    <div className="col-12 col-md-4">
                                       <label className="form-label">Type</label>
                                       <select
                                         className="form-select"
@@ -1099,17 +1099,45 @@ export default function ConfigEntityDetailsPage() {
                                         <option value="email">email</option>
                                         <option value="number">number</option>
                                         <option value="date">date</option>
-                                        <option value="password">
-                                          password
-                                        </option>
+                                        <option value="password">password</option>
                                         <option value="file">file</option>
-                                        <option value="textarea">
-                                          textarea
-                                        </option>
+                                        <option value="textarea">textarea</option>
                                         <option value="select">select</option>
-                                        <option value="checkbox">
-                                          checkbox
-                                        </option>
+                                        <option value="checkbox">checkbox</option>
+                                      </select>
+                                    </div>
+
+                                    <div className="col-12 col-md-4">
+                                      <label className="form-label">Requis</label>
+                                      <select
+                                        className="form-select"
+                                        value={selectedFormField.required ? "true" : "false"}
+                                        onChange={(e) =>
+                                          updateFormField({
+                                            required: e.target.value === "true",
+                                          })
+                                        }
+                                      >
+                                        <option value="false">Non</option>
+                                        <option value="true">Oui</option>
+                                      </select>
+                                    </div>
+
+                                    <div className="col-12 col-md-4">
+                                      <label className="form-label">ColSpan</label>
+                                      <select
+                                        className="form-select"
+                                        value={String(selectedFormField.colSpan)}
+                                        onChange={(e) =>
+                                          updateFormField({
+                                            colSpan: Number(e.target.value),
+                                          })
+                                        }
+                                      >
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
                                       </select>
                                     </div>
 
@@ -1172,7 +1200,8 @@ export default function ConfigEntityDetailsPage() {
                                                     deleteOptionAt(optIdx)
                                                   }
                                                 >
-                                                  Supprimer
+                                                  
+                                                  <i className="uil uil-trash-alt" />
                                                 </button>
                                               </div>
                                             </div>
@@ -1187,50 +1216,6 @@ export default function ConfigEntityDetailsPage() {
                                         </div>
                                       </div>
                                     )}
-
-                                    <div className="col-12 col-md-3">
-                                      <label className="form-label">
-                                        Requis
-                                      </label>
-                                      <select
-                                        className="form-select"
-                                        value={
-                                          selectedFormField.required
-                                            ? "true"
-                                            : "false"
-                                        }
-                                        onChange={(e) =>
-                                          updateFormField({
-                                            required: e.target.value === "true",
-                                          })
-                                        }
-                                      >
-                                        <option value="false">Non</option>
-                                        <option value="true">Oui</option>
-                                      </select>
-                                    </div>
-
-                                    <div className="col-12 col-md-3">
-                                      <label className="form-label">
-                                        ColSpan
-                                      </label>
-                                      <select
-                                        className="form-select"
-                                        value={String(
-                                          selectedFormField.colSpan,
-                                        )}
-                                        onChange={(e) =>
-                                          updateFormField({
-                                            colSpan: Number(e.target.value),
-                                          })
-                                        }
-                                      >
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                      </select>
-                                    </div>
 
                                     <div className="col-12 d-flex justify-content-end gap-2">
                                       <button
@@ -1258,21 +1243,6 @@ export default function ConfigEntityDetailsPage() {
                                       onChange={(e) =>
                                         updateTableColumn({
                                           label: e.target.value,
-                                        })
-                                      }
-                                    />
-                                  </div>
-
-                                  <div className="col-12 col-md-6">
-                                    <label className="form-label">
-                                      Nom (clé)
-                                    </label>
-                                    <input
-                                      className="form-control"
-                                      value={selectedTableColumn.name}
-                                      onChange={(e) =>
-                                        updateTableColumn({
-                                          name: e.target.value,
                                         })
                                       }
                                     />
