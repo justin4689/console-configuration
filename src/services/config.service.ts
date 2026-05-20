@@ -3,8 +3,8 @@ import { endpoints } from '@/api/endpoints';
 import type { CreateEntityPayload } from '@/lib/types/config.types';
 
 export const configService = {
-  getConfig: async (params: Record<string, string> = {}) => {
-    const queryString = new URLSearchParams(params).toString();
+  getConfig: async (params: Record<string, unknown> = {}) => {
+    const queryString = new URLSearchParams(params as Record<string, string>).toString();
     return httpClient.get(`${endpoints.config}${queryString ? `?${queryString}` : ''}`);
   },
 

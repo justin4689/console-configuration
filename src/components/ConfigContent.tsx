@@ -1,13 +1,16 @@
 import { useConfig } from "@/hook/queries/useConfig";
 import type { entityConfig, entityConfigData } from "@/lib/types/config.types";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { configService } from "@/services/config.service";
 import { useQueryClient } from "@tanstack/react-query";
 
 function ConfigContent() {
-  const { data, isLoading, error } = useConfig<
-    entityConfig[] | entityConfigData
-  >();
+  const [searchParams] = useSearchParams();
+  const categoryId = searchParams.get("category") ?? undefined;
+
+  const { data, isLoading, error } = useConfig<entityConfig[] | entityConfigData>(
+    categoryId ? { category: categoryId } : {},
+  );
   const queryClient = useQueryClient();
 
   const handleDelete = async (

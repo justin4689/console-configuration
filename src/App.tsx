@@ -9,9 +9,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 
 import ConfigList from "./pages/ConfigList";
 import ConfigEntityDetailsPage from "./pages/ConfigEntityDetailsPage";
-
 import { DashboardPage } from "./pages/DashboardPage";
-;
 import ConfigEntityCreatePage from "./pages/ConfigEntityCreatePage";
 
 function App() {
@@ -37,8 +35,6 @@ function App() {
             
             />
             <Route path="configurations/create" element={<ConfigEntityCreatePage />} />
-             
-          
           </Route>
         </Routes>
       </BrowserRouter>

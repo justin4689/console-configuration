@@ -2,4 +2,5 @@ export const endpoints = {
   users: "/users",
   login: "/auth/login",
   config: "/config",
+  categories: "/categories",
 };

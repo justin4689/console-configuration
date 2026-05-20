@@ -13,4 +13,10 @@ export const queryKeys = {
     list: (filters: Record<string, unknown> = {}) => [...queryKeys.config.all, 'list', filters],
     detail: (id: string | undefined) => [...queryKeys.config.all, 'detail', id],
   },
+
+  categories: {
+    all: ['categories'],
+    list: (filters: Record<string, unknown> = {}) => [...queryKeys.categories.all, 'list', filters],
+    detail: (id: string | undefined) => [...queryKeys.categories.all, 'detail', id],
+  },
 };
