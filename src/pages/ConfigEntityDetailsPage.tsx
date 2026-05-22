@@ -1162,9 +1162,9 @@ export default function ConfigEntityDetailsPage() {
                                           ).map((opt, optIdx) => (
                                             <div
                                               key={`${opt.value}-${optIdx}`}
-                                              className="row g-2 align-items-end"
+                                              className="row g-2 align-items-end flex-nowrap"
                                             >
-                                              <div className="col-12 col-md-5">
+                                              <div className="col">
                                                 <label className="form-label">
                                                   Label
                                                 </label>
@@ -1178,7 +1178,7 @@ export default function ConfigEntityDetailsPage() {
                                                   }
                                                 />
                                               </div>
-                                              <div className="col-12 col-md-5">
+                                              <div className="col">
                                                 <label className="form-label">
                                                   Value
                                                 </label>
@@ -1192,10 +1192,10 @@ export default function ConfigEntityDetailsPage() {
                                                   }
                                                 />
                                               </div>
-                                              <div className="col-12 col-md-2 d-grid">
+                                              <div className="col-auto">
                                                 <button
                                                   type="button"
-                                                  className="btn btn-outline-danger"
+                                                  className="btn btn-outline-danger btn-sm"
                                                   onClick={() =>
                                                     deleteOptionAt(optIdx)
                                                   }
