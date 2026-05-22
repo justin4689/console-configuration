@@ -81,6 +81,7 @@ export default function ConfigEntityDetailsPage() {
   const [selectedFormIndex, setSelectedFormIndex] = useState<number>(0);
   const [selectedTableIndex, setSelectedTableIndex] = useState<number>(0);
   const [isDirty, setIsDirty] = useState(false);
+  const [showColumnPicker, setShowColumnPicker] = useState(false);
 
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
@@ -363,21 +364,24 @@ export default function ConfigEntityDetailsPage() {
     setIsDirty(true);
   };
 
-  const addTableColumn = () => {
+  const addColumnFromField = (fieldName: string) => {
+    const field = formFields.find((f) => f.name === fieldName);
+    if (!field) return;
     setConfig((prev) => {
       if (!prev) return prev;
-      const next = [
-        ...prev.table.columns,
-        {
-          name: "new_column",
-          label: "Nouvelle colonne",
-          sortable: false,
+      return {
+        ...prev,
+        table: {
+          ...prev.table,
+          columns: [
+            ...prev.table.columns,
+            { name: field.name, label: field.label, sortable: false },
+          ],
         },
-      ];
-      return { ...prev, table: { ...prev.table, columns: next } };
+      };
     });
     setSelectedTableIndex(tableColumns.length);
-    setActiveTab("table");
+    setShowColumnPicker(false);
     setIsDirty(true);
   };
 
@@ -857,17 +861,23 @@ export default function ConfigEntityDetailsPage() {
                                       ? `${formFields.length} champ(s)`
                                       : `${tableColumns.length} colonne(s)`}
                                   </span>
-                                  <button
-                                    type="button"
-                                    className="btn btn-sm btn-outline-primary"
-                                    onClick={
-                                      activeTab === "form"
-                                        ? addFormField
-                                        : addTableColumn
-                                    }
-                                  >
-                                    + Ajouter
-                                  </button>
+                                  {activeTab === "form" ? (
+                                    <button
+                                      type="button"
+                                      className="btn btn-sm btn-outline-primary"
+                                      onClick={addFormField}
+                                    >
+                                      + Ajouter
+                                    </button>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="btn btn-sm btn-outline-primary"
+                                      onClick={() => setShowColumnPicker(true)}
+                                    >
+                                      + Ajouter
+                                    </button>
+                                  )}
                                 </div>
                               </div>
                               <hr />
@@ -1294,6 +1304,53 @@ export default function ConfigEntityDetailsPage() {
           </div>
         </div>
       </div>
+
+      {showColumnPicker && (
+        <>
+          <div
+            className="position-fixed top-0 start-0 w-100 h-100"
+            style={{ background: "rgba(0,0,0,0.35)", zIndex: 1040 }}
+            onClick={() => setShowColumnPicker(false)}
+          />
+          <div
+            className="position-fixed top-50 start-50 translate-middle bg-white rounded shadow"
+            style={{ zIndex: 1050, width: 340, maxHeight: 420 }}
+          >
+            <div className="d-flex justify-content-between align-items-center px-3 pt-3 pb-2 border-bottom">
+              <h6 className="m-0">Ajouter une colonne</h6>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setShowColumnPicker(false)}
+              />
+            </div>
+            <div className="overflow-auto" style={{ maxHeight: 320 }}>
+              {formFields.filter((f) => !tableColumns.some((c) => c.name === f.name))
+                .length === 0 ? (
+                <p className="text-muted text-center py-3 mb-0">
+                  Tous les champs sont déjà ajoutés.
+                </p>
+              ) : (
+                <ul className="list-group list-group-flush">
+                  {formFields
+                    .filter((f) => !tableColumns.some((c) => c.name === f.name))
+                    .map((f) => (
+                      <li
+                        key={f.name}
+                        className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => addColumnFromField(f.name)}
+                      >
+                        <span>{f.label}</span>
+                        <small className="text-muted">{f.name}</small>
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
